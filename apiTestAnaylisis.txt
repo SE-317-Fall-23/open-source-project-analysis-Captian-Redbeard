@@ -1,0 +1,78 @@
+﻿Test Case 1:
+'use strict'
+
+
+var express = require('../')
+ , request = require('supertest');
+
+
+describe('app.del()', function(){
+ it('should alias app.delete()', function(done){
+   var app = express();
+
+
+   app.del('/tobi', function(req, res){
+     res.end('deleted tobi!');
+   });
+
+
+   request(app)
+   .del('/tobi')
+   .expect('deleted tobi!', done);
+ })
+})
+
+
+
+
+Description: The purpose of this test is to verify that the app.delete  method is working as expected. It is a static test. 
+Gherkin:
+Test Steps: First thing that is done is import all the files we are trying to test. After describing the function and the test, we actually start the test. This means instantiating the app. (car app = express();) 
+We then call the del() method with the api url “/tobi”. This should be responded with the message “deleted tobi!”/
+Code Segments Under Test:
+app.delete('/user/:id', loadUser, andRestrictTo('admin'), function(req, res){
+  res.send('Deleted user ' + req.user.name);
+});
+
+
+        The code is an index.js file. This is one of many API methods. This one has the api url path of “/user/id” 
+Initial State:
+        There was a user “tobi” in the repository. This entity was put there before this test was run. 
+Transition:        
+We called the delete method with the url “/tobi”
+Expected State:
+The response ‘deleted tobi!” and the status “done”. The user entity called “tobi” should no longer be in the repository. 
+
+
+Test Case 2:
+
+
+Description:describe('OPTIONS', function(){
+  it('should default to the routes defined', function(done){
+    var app = express();
+
+
+    app.del('/', function(){});
+    app.get('/users', function(req, res){});
+    app.put('/users', function(req, res){});
+
+
+    request(app)
+    .options('/users')
+    .expect('Allow', 'GET,HEAD,PUT')
+    .expect(200, 'GET,HEAD,PUT', done);
+  })
+
+
+This tests some get, delete, and put methods. It is implied that the app.del and the app.put are working. The tests the app and requests for users to allow this 
+Gherkin:
+Test Steps: The first thing they do is call the api.del, api.get and app.put method. From here they make a request with (app) and they expect a 200 everything ok error code with the status done. 
+Code Segments Under Test: // example: http://localhost:3000/api/users/?api-key=foo
+app.get('/api/users', function (req, res) {
+  res.send(users);
+});
+
+
+Initial State: Before the actual test, there is a put that ensures there is an entity in the repository.
+Transition: The transition is the request. With the url “/users”.
+Expected State: The expected result is a 200 everything ok error code with the status done.
